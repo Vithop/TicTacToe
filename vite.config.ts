@@ -1,10 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import type { UserConfig } from 'vite';
 
-const config: UserConfig = {
-	plugins: [
-		sveltekit(),
-	]
+/** @type {import('vite').UserConfig} */
+export default {
+	plugins: [sveltekit()],
 };
-
-export default config;

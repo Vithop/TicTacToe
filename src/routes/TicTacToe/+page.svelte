@@ -1,10 +1,13 @@
 <script>
 	// import init, {greet} from 'engine';
+	import 'papercss/dist/paper.min.css'
+
+	import {Button} from 'spaper'
 
     let winMap = [
 		[0, 1, 2],
 		[3, 4, 5],
-		[6, 7, 8],
+		[6, 7, 8], 
 		[0, 3, 6],
 		[1, 4, 7],
 		[2, 5, 8],
@@ -15,6 +18,10 @@
 	let isXTurn = true;
 
 	let boardState = Array(9).fill('');
+
+	let mathu = "the best";
+	let vithu = "the worst";
+
 
 	// async function loadWasm() {
 	// 	const wasmInit = await init();
@@ -51,23 +58,37 @@
 	}
 
 
+	function foo(){
+		console.log("page is fully loaded");
+
+	}
+
+
 </script>
 
-<h1>Tic Tac Toe</h1>
-<button on:click={resetBoard}> New Game </button>
-<div class="game">
+<svelte:window on:load={foo}/>
+
+<!-- <h1>Tic Tac Toe</h1>
+<h1>Mathu is {vithu}</h1>
+<h2>Vithu is {mathu}</h2> -->
+<!-- <button on:click={resetBoard}> New Game </button> -->
+
+<div class="game row">
 	<div class="board {isXTurn ? 'x_turn' : 'o_turn'}">
 		{#each boardState as toe, i}
 			<div
-				class="tile {toe}"
-				on:click={() => {
-					boardState[i] = isXTurn ? 'X' : 'O';
-					isXTurn = !isXTurn;
-					checkBoard(boardState, i);
-				}}
+			class="col border border-primary shadow shadow-hover tile background-secondary {toe}"
+			on:click={() => {
+				boardState[i] = isXTurn ? 'X' : 'O';
+				isXTurn = !isXTurn;
+				checkBoard(boardState, i);
+			}}
 			/>
 		{/each}
 	</div>
+</div>
+<div class="row flex-center">
+	<Button class="btn-success btn-large sm-6 col" on:click={resetBoard}>New Game</Button>
 </div>
 
 <style>
@@ -82,7 +103,7 @@
 			'tile tile tile'
 			'tile tile tile'
 			'tile tile tile';
-		background-color: azure;
+		/* background-color: azure; */
 	}
 
     .x_turn > .tile:not(.X):not(.O):hover::before {
@@ -97,7 +118,6 @@
         display: flex;
         justify-content: center;
         align-content: center;
-		background-color: aqua;
 		height: 30vmin;
 		width: 30vmin;
 	}
