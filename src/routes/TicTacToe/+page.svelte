@@ -1,13 +1,13 @@
 <script>
 	// import init, {greet} from 'engine';
-	import 'papercss/dist/paper.min.css'
+	import 'papercss/dist/paper.min.css';
 
-	import {Button} from 'spaper'
+	import { Button } from 'spaper';
 
-    let winMap = [
+	let winMap = [
 		[0, 1, 2],
 		[3, 4, 5],
-		[6, 7, 8], 
+		[6, 7, 8],
 		[0, 3, 6],
 		[1, 4, 7],
 		[2, 5, 8],
@@ -19,13 +19,12 @@
 
 	let boardState = Array(9).fill('');
 
-	let mathu = "the best";
-	let vithu = "the worst";
-
+	let mathu = 'the best';
+	let vithu = 'the worst';
 
 	// async function loadWasm() {
 	// 	const wasmInit = await init();
-		
+
 	// 	greet();
 	// }
 	// loadWasm();
@@ -41,14 +40,13 @@
 				if (
 					toes[winPattern[0]] === toes[winPattern[1]] &&
 					toes[winPattern[1]] === toes[winPattern[2]] &&
-                    toes[winPattern[0]] !== ''
+					toes[winPattern[0]] !== ''
 				) {
-                    console.log(winPattern);
-                    alert(`${toes[winPattern[0]]} Wins!  ${winPattern}`);
-					if (confirm("Would you like to start a new game?")){
+					console.log(winPattern);
+					alert(`${toes[winPattern[0]]} Wins!  ${winPattern}`);
+					if (confirm('Would you like to start a new game?')) {
 						resetBoard();
 					}
-
 				}
 			});
 	}
@@ -57,32 +55,27 @@
 		boardState = Array(9).fill('');
 	}
 
-
-	function foo(){
-		console.log("page is fully loaded");
-
+	function foo() {
+		console.log('page is fully loaded');
 	}
-
-
 </script>
 
-<svelte:window on:load={foo}/>
+<svelte:window on:load={foo} />
 
 <!-- <h1>Tic Tac Toe</h1>
 <h1>Mathu is {vithu}</h1>
 <h2>Vithu is {mathu}</h2> -->
-<!-- <button on:click={resetBoard}> New Game </button> -->
-
 <div class="game row">
 	<div class="board {isXTurn ? 'x_turn' : 'o_turn'}">
 		{#each boardState as toe, i}
 			<div
-			class="col border border-primary shadow shadow-hover tile background-secondary {toe}"
-			on:click={() => {
-				boardState[i] = isXTurn ? 'X' : 'O';
-				isXTurn = !isXTurn;
-				checkBoard(boardState, i);
-			}}
+				class="col border border-primary shadow shadow-hover tile background-secondary {toe}"
+				on:click={() => {
+					boardState[i] = isXTurn ? 'X' : 'O';
+					isXTurn = !isXTurn;
+					checkBoard(boardState, i);
+				}}
+				on:keydown={()=>{}}
 			/>
 		{/each}
 	</div>
@@ -106,35 +99,34 @@
 		/* background-color: azure; */
 	}
 
-    .x_turn > .tile:not(.X):not(.O):hover::before {
-        content: 'X';
-    }
+	.x_turn > .tile:not(.X):not(.O):hover::before {
+		content: 'X';
+	}
 
-    .o_turn > .tile:not(.X):not(.O):hover::before {
-        content: 'O';
-    }
+	.o_turn > .tile:not(.X):not(.O):hover::before {
+		content: 'O';
+	}
 
 	.tile {
-        display: flex;
-        justify-content: center;
-        align-content: center;
+		display: flex;
+		justify-content: center;
+		align-content: center;
 		height: 30vmin;
 		width: 30vmin;
 	}
 
-    .tile:not(.X):not(.O):hover{
-        opacity: 25%;
-    }
+	.tile:not(.X):not(.O):hover {
+		opacity: 25%;
+	}
 
-    .tile::before {
-        font-size: 20vmin;
+	.tile::before {
+		font-size: 20vmin;
 		font-style: normal;
 		font-family: cursive;
-    }
+	}
 
 	.X::before {
 		content: 'X';
-		
 	}
 	.O::before {
 		content: 'O';

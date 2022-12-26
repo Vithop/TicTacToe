@@ -14,8 +14,7 @@
 	</div>
 </nav>
 <div class="row flex-center margin-top-large">
-
-  <div class="col">
-    <slot/>
-  </div>
+	<div class="col">
+		<slot />
+	</div>
 </div>
