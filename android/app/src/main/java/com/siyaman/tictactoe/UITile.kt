@@ -22,7 +22,7 @@ fun UITile(
   ) {
     Text(
       piece?.toString() ?: "",
-      style = MaterialTheme.typography.headlineLarge,
+      style = MaterialTheme.typography.displayLarge,
       color = MaterialTheme.colorScheme.primary
     )
   }
