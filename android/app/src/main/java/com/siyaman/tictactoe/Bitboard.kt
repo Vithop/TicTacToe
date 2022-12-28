@@ -105,13 +105,7 @@ value class Bitboard(private val data: Short = 0) : Parcelable {
       steps
     )
 
-  fun positions(): IntArray {
-    var result = intArrayOf()
-    for (i in 0 until Bitboard.AREA) {
-      if (data and mask(i) != ZERO) result += i
-    }
-    return result;
-  }
+  fun positions() = (0 until Bitboard.AREA).filter { test(it) }.toIntArray()
 
   companion object {
     const val LENGTH = 3
