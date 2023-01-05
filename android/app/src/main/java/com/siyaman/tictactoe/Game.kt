@@ -45,6 +45,8 @@ data class Game(private var m_player: Player = Player.X, private val m_board: Bo
   private fun winPositions(player: Player) =
     allWinPositions.find { (it and board.getPieces(player)).count == Board.LENGTH }
 
+  fun deepCopy() = this.copy(m_board = m_board.copy())
+
   companion object {
     private val allWinPositions = arrayOf(
       POSITIVE_DIAGONAL,
