@@ -22,12 +22,42 @@
 	let mathu = 'the best';
 	let vithu = 'the worst';
 
-	// async function loadWasm() {
-	// 	const wasmInit = await init();
+	/**
+	 * @param {number} i
+	 */
+	function drawTicTac(i) {
+		if (boardState[i] === ''){
+			boardState[i] = isXTurn ? 'X' : 'O';
+			isXTurn = !isXTurn;
+			checkBoard(boardState, i);
+		}			
+	}
 
-	// 	greet();
-	// }
-	// loadWasm();
+	/**
+	 * @param {string[]} toes
+	 * @param {number[]} winPattern
+	 */
+	function showWinScreen(toes, winPattern) {
+		alert(`${toes[winPattern[0]]} Wins!  ${winPattern}`);
+		if (confirm('Would you like to start a new game?')) {
+			resetBoard();
+		}
+	}
+
+	/**
+	 * @param {string[]} toes
+	 * @param {number[]} winPattern
+	 */
+	function isWinPattern(toes, winPattern) {
+		if (
+			toes[winPattern[0]] === toes[winPattern[1]] &&
+			toes[winPattern[1]] === toes[winPattern[2]] &&
+			toes[winPattern[0]] !== ''
+		) {
+			console.log(winPattern);
+			showWinScreen(toes, winPattern)
+		}
+	}
 
 	/**
 	 * @param {string[]} toes
@@ -37,22 +67,15 @@
 		winMap
 			.filter((winPattern) => winPattern.find((i) => i === index))
 			.forEach((winPattern) => {
-				if (
-					toes[winPattern[0]] === toes[winPattern[1]] &&
-					toes[winPattern[1]] === toes[winPattern[2]] &&
-					toes[winPattern[0]] !== ''
-				) {
-					console.log(winPattern);
-					alert(`${toes[winPattern[0]]} Wins!  ${winPattern}`);
-					if (confirm('Would you like to start a new game?')) {
-						resetBoard();
-					}
-				}
+				isWinPattern(toes, winPattern)
 			});
 	}
 
+	
+
 	function resetBoard() {
 		boardState = Array(9).fill('');
+		isXTurn = true;
 	}
 
 	function foo() {
@@ -70,11 +93,7 @@
 		{#each boardState as toe, i}
 			<div
 				class="col border border-primary shadow shadow-hover tile background-secondary {toe}"
-				on:click={() => {
-					boardState[i] = isXTurn ? 'X' : 'O';
-					isXTurn = !isXTurn;
-					checkBoard(boardState, i);
-				}}
+				on:click={()=>drawTicTac(i)}
 				on:keydown={()=>{}}
 			/>
 		{/each}
@@ -111,16 +130,16 @@
 		display: flex;
 		justify-content: center;
 		align-content: center;
-		height: 30vmin;
-		width: 30vmin;
+		height: 20vmin;
+		width: 20vmin;
 	}
 
-	.tile:not(.X):not(.O):hover {
+	/* .tile:not(.X):not(.O):hover {
 		opacity: 25%;
-	}
+	} */
 
 	.tile::before {
-		font-size: 20vmin;
+		font-size: 15vmin;
 		font-style: normal;
 		font-family: cursive;
 	}
