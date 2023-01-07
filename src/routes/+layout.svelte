@@ -4,11 +4,14 @@
 		<label for="collapsible1">
 			<div class="bar1" />
 			<div class="bar2" />
+			<div class="bar3" />
 		</label>
 		<div class="collapsible-body">
 			<ul class="inline">
 				<li><a href="/">Home</a></li>
+				<li><a href="/About">About</a></li>
 				<li><a href="/TicTacToe">Tic Tac Toe</a></li>
+
 			</ul>
 		</div>
 	</div>
