@@ -33,12 +33,7 @@
 		}			
 	}
 
-	/**
-	 * @param {string[]} toes
-	 * @param {number[]} winPattern
-	 */
-	function showWinScreen(toes, winPattern) {
-		alert(`${toes[winPattern[0]]} Wins!  ${winPattern}`);
+	function confirmNewGame(){
 		if (confirm('Would you like to start a new game?')) {
 			resetBoard();
 		}
@@ -48,15 +43,33 @@
 	 * @param {string[]} toes
 	 * @param {number[]} winPattern
 	 */
+	function showWinScreen(toes, winPattern) {
+		alert(`${toes[winPattern[0]]} Wins!  ${winPattern}`);
+		confirmNewGame()
+	}
+
+	function showDrawScreen() {
+		alert(`😺😺😺 It's cats game! 😺😺😺`);
+		confirmNewGame()
+	}
+
+	/**
+	 * @param {string[]} toes
+	 * @param {number[]} winPattern
+	 */
 	function isWinPattern(toes, winPattern) {
-		if (
+		return (
 			toes[winPattern[0]] === toes[winPattern[1]] &&
 			toes[winPattern[1]] === toes[winPattern[2]] &&
 			toes[winPattern[0]] !== ''
-		) {
-			console.log(winPattern);
-			showWinScreen(toes, winPattern)
-		}
+		)
+	}
+
+	/**
+	 * @param {String[]} boardState
+	 */
+	function isBoardFull(boardState) {
+		return boardState.every(( value ) => value !== '');
 	}
 
 	/**
@@ -64,11 +77,20 @@
 	 * @param {number} index
 	 */
 	function checkBoard(toes, index) {
+		let isWinMove = false;
 		winMap
 			.filter((winPattern) => winPattern.find((i) => i === index))
 			.forEach((winPattern) => {
-				isWinPattern(toes, winPattern)
+				isWinMove = isWinPattern(toes, winPattern);
+				if (isWinMove) {
+					console.log(winPattern);
+					showWinScreen(toes, winPattern);
+				}
 			});
+		
+		if ((isWinMove === false) && isBoardFull(boardState)) {
+			showDrawScreen();
+		}
 	}
 
 	
