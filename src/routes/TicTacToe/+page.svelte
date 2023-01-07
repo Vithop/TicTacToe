@@ -100,7 +100,7 @@
 	</div>
 </div>
 <div class="row flex-center">
-	<Button class="btn-success btn-large sm-6 col" on:click={resetBoard}>New Game</Button>
+	<Button class="btn-success col-12 col" on:click={resetBoard}>New Game</Button>
 </div>
 
 <style>
