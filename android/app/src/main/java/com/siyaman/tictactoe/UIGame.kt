@@ -8,31 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.siyaman.tictactoe.ui.theme.TicTacToeTheme
-
-@Composable
-fun UIBoard(board: Board, enabled: Boolean, onClick: (Int) -> Unit) {
-  Column(
-    modifier = Modifier
-      .aspectRatio(ratio = 1.0f)
-      .padding(16.dp)
-  ) {
-    for (row in Board.LENGTH - 1 downTo 0) {
-      Row(modifier = Modifier.weight(1f)) {
-        for (column in 0 until Board.LENGTH) {
-          val position = row * Board.LENGTH + column
-          val piece = board.getPiece(position)
-          UITile(modifier = Modifier.weight(1f), piece, enabled) {
-            onClick(position)
-          }
-          if (column < Board.LENGTH - 1) UIVerticalLine()
-        }
-      }
-      if (row > 0) UIHorizontalLine()
-    }
-  }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

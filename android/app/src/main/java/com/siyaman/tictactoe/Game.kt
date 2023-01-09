@@ -9,6 +9,7 @@ data class Game(private var m_player: Player = Player.X, private val m_board: Bo
   val player get() = m_player
   val board get() = m_board
   val isGameOver get() = status.isGameOver
+  val moves get() = if (isGameOver) intArrayOf() else board.emptySpaces.positions()
   val status: Status
     get() {
       val xWinPositions = winPositions(Player.X)
