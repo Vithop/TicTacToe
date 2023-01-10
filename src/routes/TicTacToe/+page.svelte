@@ -3,34 +3,19 @@
 	import 'papercss/dist/paper.min.css';
 
 	import { Button } from 'spaper';
+	import Game, {Status} from "../../lib/Game.ts";
 
-	let winMap = [
-		[0, 1, 2],
-		[3, 4, 5],
-		[6, 7, 8],
-		[0, 3, 6],
-		[1, 4, 7],
-		[2, 5, 8],
-		[0, 4, 8],
-		[2, 4, 6]
-	];
-
-	let isXTurn = true;
-
-	let boardState = Array(9).fill('');
-
-	let mathu = 'the best';
-	let vithu = 'the worst';
+	let game = new Game();
 
 	/**
 	 * @param {number} i
 	 */
 	function drawTicTac(i) {
-		if (boardState[i] === ''){
-			boardState[i] = isXTurn ? 'X' : 'O';
-			isXTurn = !isXTurn;
-			checkBoard(boardState, i);
-		}			
+		game.executeMove(i);
+		// Force Svelte to re-render by assigning variable to itself since Svelte 
+		// doesn't know `executeMove` causes a mutation
+		game = game;
+		checkBoard(game.status);			
 	}
 
 	function confirmNewGame(){
@@ -43,8 +28,8 @@
 	 * @param {string[]} toes
 	 * @param {number[]} winPattern
 	 */
-	function showWinScreen(toes, winPattern) {
-		alert(`${toes[winPattern[0]]} Wins!  ${winPattern}`);
+	function showWinScreen(status) {
+		alert(`${status}  ${status.winPositions}`);
 		confirmNewGame()
 	}
 
@@ -53,51 +38,17 @@
 		confirmNewGame()
 	}
 
-	/**
-	 * @param {string[]} toes
-	 * @param {number[]} winPattern
-	 */
-	function isWinPattern(toes, winPattern) {
-		return (
-			toes[winPattern[0]] === toes[winPattern[1]] &&
-			toes[winPattern[1]] === toes[winPattern[2]] &&
-			toes[winPattern[0]] !== ''
-		)
-	}
-
-	/**
-	 * @param {String[]} boardState
-	 */
-	function isBoardFull(boardState) {
-		return boardState.every(( value ) => value !== '');
-	}
-
-	/**
-	 * @param {string[]} toes
-	 * @param {number} index
-	 */
-	function checkBoard(toes, index) {
-		let isWinMove = false;
-		winMap
-			.filter((winPattern) => winPattern.find((i) => i === index))
-			.forEach((winPattern) => {
-				isWinMove = isWinPattern(toes, winPattern);
-				if (isWinMove) {
-					console.log(winPattern);
-					showWinScreen(toes, winPattern);
-				}
-			});
-		
-		if ((isWinMove === false) && isBoardFull(boardState)) {
+	function checkBoard(status) {	
+		if (status === Status.Draw) {
 			showDrawScreen();
+		}
+		else if(status instanceof Status.XWon || status instanceof Status.OWon){
+			showWinScreen(status);
 		}
 	}
 
-	
-
 	function resetBoard() {
-		boardState = Array(9).fill('');
-		isXTurn = true;
+		game = new Game();
 	}
 
 	function foo() {
@@ -107,12 +58,9 @@
 
 <svelte:window on:load={foo} />
 
-<!-- <h1>Tic Tac Toe</h1>
-<h1>Mathu is {vithu}</h1>
-<h2>Vithu is {mathu}</h2> -->
 <div class="game row">
-	<div class="board {isXTurn ? 'x_turn' : 'o_turn'}">
-		{#each boardState as toe, i}
+	<div class="board {game.isXTurn ? 'x_turn' : 'o_turn'}">
+		{#each game.boardState as toe, i}
 			<div
 				class="col border border-primary shadow shadow-hover tile background-secondary {toe}"
 				on:click={()=>drawTicTac(i)}
