@@ -8,12 +8,19 @@ const WIN_VALUE = 10.0
  *
  * @return     Score of the current Game {score ∈ ℚ}
  */
-function evaluationFunction(game: Game, maximizingPlayer: Player) = when (game.status) {
-  is Status.XWon -> if (maximizingPlayer == Player.X) WIN_VALUE else -WIN_VALUE
-  is Status.OWon -> if (maximizingPlayer == Player.O) WIN_VALUE else -WIN_VALUE
-  else -> 0.0
+function evaluationFunction(game: Game, maximizingPlayer: Player) {
+  let score = 0;
+  switch (game.status) {
+    case Status.XWon
+      score = maximizingPlayer == Player.X ? WIN_VALUE : -WIN_VALUE;
+      break;
+    case Status.OWon
+      score = maximizingPlayer == Player.O ? WIN_VALUE : -WIN_VALUE;
+      break;
+  }
   // More pieces results in longer game
-} + game.board.emptySpaces.inv().count
+  return score + game.board.emptySpaces.inv().count;
+} 
 
 /**
  * Calculate the highest score possible up to the search depth
@@ -36,29 +43,29 @@ function alphabeta(
   game: Game, maximizingPlayer: Player, depth: Int,
   alpha: Double = NEGATIVE_INFINITY, beta: Double = POSITIVE_INFINITY
 ): Double {
-  let newAlpha = alpha
-  let newBeta = beta
-  const moves = game.moves
+  let newAlpha = alpha;
+  let newBeta = beta;
+  const moves = game.moves;
   if (depth == 0 || moves.isEmpty()) {
-    return evaluationFunction(game, maximizingPlayer)
+    return evaluationFunction(game, maximizingPlayer);
   }
 
-  const isSamePlayer = game.player == maximizingPlayer
-  let result = if (isSamePlayer) NEGATIVE_INFINITY else POSITIVE_INFINITY
-  for (move in moves) {
-    if (newAlpha >= newBeta) break
-    const nextGame = game.deepCopy()
+  const isSamePlayer = game.player == maximizingPlayer;
+  let result = isSamePlayer ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+  for (const move of moves) {
+    if (newAlpha >= newBeta) break;
+    const nextGame = game.cloneDeep()
     nextGame.executeMove(move)
     const rating = alphabeta(
       nextGame, maximizingPlayer, depth - 1,
       newAlpha, newBeta
     )
     if (isSamePlayer) {
-      result = max(result, rating)
-      newAlpha = max(newAlpha, result)
+      result = Math.max(result, rating)
+      newAlpha = Math.max(newAlpha, result)
     } else {
-      result = min(result, rating)
-      newBeta = min(newBeta, result)
+      result = Math.min(result, rating)
+      newBeta = Math.min(newBeta, result)
     }
   }
   return result
@@ -67,7 +74,7 @@ function alphabeta(
 /**
  * Difficulty of artificial intelligence (AI) player
  */
-enum Difficulty {
+export enum Difficulty {
   Easy = 2,
   Medium = 3,
   Hard = 5
@@ -90,7 +97,7 @@ export function selectMove(game: Game, difficulty: Difficulty = Difficulty.Mediu
   let maxRating = NEGATIVE_INFINITY
   let bestMove = moves.first()
   for (move in moves) {
-    const nextGame = game.deepCopy()
+    const nextGame = game.cloneDeep()
     nextGame.executeMove(move)
     const rating =
       alphabeta(nextGame, game.player, difficulty.depth, maxRating)
