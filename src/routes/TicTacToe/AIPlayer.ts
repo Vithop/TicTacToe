@@ -1,4 +1,8 @@
-const WIN_VALUE = 10.0
+// Need to define Player and Game
+// import {Player} from "./Player.ts";
+// import {Game} from "./Game.ts";
+
+const WIN_VALUE = 10.0;
 
 /**
  * Calculate score of the Game for a player
