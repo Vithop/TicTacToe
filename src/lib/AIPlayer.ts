@@ -78,11 +78,11 @@ function alphabeta(
 /**
  * Difficulty of artificial intelligence (AI) player
  */
-export enum Difficulty {
-  Easy = 2,
-  Medium = 3,
-  Hard = 5
-}
+const Difficulty = {
+  Easy: 2,
+  Medium: 3,
+  Hard: 5
+} as const;
 
 /**
  * Select the best move given the game and difficulty
